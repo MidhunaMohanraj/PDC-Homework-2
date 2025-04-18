@@ -1,6 +1,5 @@
 // code template for a basic C client is from 
 // https://www.geeksforgeeks.org/socket-programming-cc/
-// comments are by us
 #include <arpa/inet.h>
 #include <stdio.h>
 #include <string.h>
@@ -26,7 +25,7 @@ int main(int argc, char const* argv[])
 
     // Convert IPv4 and IPv6 addresses from text to binary
     // form
-    if (inet_pton(AF_INET, "192.168.100.4", &serv_addr.sin_addr) // address of server
+    if (inet_pton(AF_INET, "192.168.100.4", &serv_addr.sin_addr) // the address of the other virtual machine on the NAT network plus the port
         <= 0) {
         printf(
             "\nInvalid address/ Address not supported \n");
@@ -41,15 +40,14 @@ int main(int argc, char const* argv[])
         return -1;
     }
   
-    // subtract 1 for the null
-    // terminator at the end
+    // we send the message to the server and print it out in the client terminal
     send(client_fd, hello, strlen(hello), 0);
     printf("Hello message sent\n");
     valread = read(client_fd, buffer,
                    1024 - 1); 
     printf("%s\n", buffer);
 
-    // closing the connected socket
+    // close the socket after sending 1 message
     close(client_fd);
     return 0;
 }
